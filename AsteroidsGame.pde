@@ -1,38 +1,71 @@
 SpaceShip ship;
+Stars stars;
 public void setup() {
   ship = new SpaceShip();
+  stars = new Stars();
   size(800, 800);
 }
 public void draw() {
   background(255);
+  stars.show();
   ship.move();
   ship.show();
-  if(keyPressed) {
-    if(key == 'a') {
-      ship.rotate(-5);
-    }
-    if(key == 'd') {
-      ship.rotate(5);
-    }
-    if(key == 'w') {
-      ship.accelerate(.5);
-    }
-  }
 }
 
 public void keyPressed() {
-  
+  if(key == 'a') {
+    ship.rotating = -5;
+  }
+  if(key == 'd') {
+    ship.rotating = 5;
+  }
+  if(key == 'w') {
+    ship.accelerating = true;
+  }
+}
+public void keyReleased() {
+  if(key == 'a') {
+    ship.rotating = 0;
+  }
+  if(key == 'd') {
+    ship.rotating = 0;
+  }
+  if(key == 'w') {
+    ship.accelerating = false;
+  }
 }
 
+class Stars {
+  int[] x, y;
+  Stars() {
+    x = new int[(int)(Math.random()*100+50)];
+    y = x;
+    for(int i = 0; i < x.length; i++) {
+      x[i] = (int)(Math.random()*width);
+      y[i] = (int)(Math.random()*height);
+    }
+  }
+  void show() {
+    for(int i = 0; i < x.length; i++) {
+      ellipse(x[i], y[i], 3, 3);
+    }
+  }
+}
 class SpaceShip extends Floater {
+  boolean accelerating;
+  int rotating;
   SpaceShip() {
     myColor = 0;
     corners = 3;
     xCorners = new int[] {-10, 10, -10};
     yCorners = new int[] {-6, 0, 6};
+    accelerating = false;
+    rotating = 0;
   }
   public void move() {
     super.move();
+    rotate(rotating);
+    if(accelerating) accelerate(.2);
     if(myDirectionX > 10) myDirectionX = 10;
     if(myDirectionX < -10) myDirectionX = -10;
     if(myDirectionY > 10) myDirectionY = 10;
