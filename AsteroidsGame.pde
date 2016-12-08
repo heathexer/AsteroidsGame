@@ -39,7 +39,7 @@ class Stars {
   int[] x, y;
   Stars() {
     x = new int[(int)(Math.random()*100+50)];
-    y = x;
+    y = new int[(int)(Math.random()*100+50)];
     for(int i = 0; i < x.length; i++) {
       x[i] = (int)(Math.random()*width);
       y[i] = (int)(Math.random()*height);
