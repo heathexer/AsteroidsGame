@@ -1,8 +1,14 @@
 SpaceShip ship;
 Stars stars;
+ArrayList asteroids, bullets;
 public void setup() {
   ship = new SpaceShip();
   stars = new Stars();
+  asteroids = new ArrayList();
+  bullets = new ArrayList();
+  for(int i = 0; i < 10; i++) {
+      asteroids.add(new Asteroid());
+  }
   size(800, 800);
 }
 public void draw() {
@@ -10,6 +16,23 @@ public void draw() {
   stars.show();
   ship.move();
   ship.show();
+  if(asteroids.size() > 0) for(int i = 0; i < asteroids.size(); i++) {
+     Asteroid tempA = (Asteroid)asteroids.get(i);
+     if(bullets.size() > 0) for(int j = 0; j < bullets.size(); j++) {
+        Bullet tempB = (Bullet)bullets.get(j);
+        if(dist(tempA.getX(), tempA.getY(), tempB.getX(), tempB.getY()) < 15) {
+            bullets.remove(tempB);
+            asteroids.remove(tempA);
+        }
+     }
+     tempA.move();
+     tempA.show();
+  }
+  if(bullets.size() > 0) for(int i = 0; i < bullets.size(); i++) {
+     Bullet temp = (Bullet)bullets.get(i);
+     temp.move();
+     temp.show();
+  }
 }
 
 public void keyPressed() {
@@ -21,6 +44,9 @@ public void keyPressed() {
   }
   if(key == 'w') {
     ship.accelerating = true;
+  }
+  if(key == ' ') {
+      bullets.add(new Bullet(ship));
   }
 }
 public void keyReleased() {
@@ -38,8 +64,9 @@ public void keyReleased() {
 class Stars {
   int[] x, y;
   Stars() {
-    x = new int[(int)(Math.random()*100+50)];
-    y = new int[(int)(Math.random()*100+50)];
+      int length = (int)(Math.random()*100+50);
+    x = new int[length];
+    y = new int[length];
     for(int i = 0; i < x.length; i++) {
       x[i] = (int)(Math.random()*width);
       y[i] = (int)(Math.random()*height);
