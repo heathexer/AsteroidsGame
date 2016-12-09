@@ -64,12 +64,12 @@ public void keyReleased() {
 class Stars {
   int[] x, y;
   Stars() {
-      int length = (int)(Math.random()*100+50);
+    int length = (int)(Math.random()*100+50);
     x = new int[length];
     y = new int[length];
     for(int i = 0; i < x.length; i++) {
-      x[i] = (int)(Math.random()*width);
-      y[i] = (int)(Math.random()*height);
+      x[i] = (int)(Math.random()*800);
+      y[i] = (int)(Math.random()*800);
     }
   }
   void show() {
